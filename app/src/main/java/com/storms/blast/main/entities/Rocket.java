@@ -33,10 +33,8 @@ public class Rocket {
 
     public Rocket(Bitmap bitmap, int power, int angle, int x, int y) {
         this.bitmap = bitmap;
-        this.x = x - (int)(BULLET_SIDE/4);
-        this.y = y - (int)(BULLET_SIDE/4);
-        this.frameWidth = GUN_SIDE;
-        this.frameHeight = GUN_SIDE;
+        this.x = x - (int)(BULLET_SIDE);
+        this.y = y - (int)(BULLET_SIDE);
         position = new Matrix();
         this.power = power + 20;
         this.angle = angle - 90;
@@ -59,7 +57,7 @@ public class Rocket {
     }//рисует
 
     public Rect getBoundingBoxRect(){
-        return new Rect((int)(x), (int)(y), (int)(x+frameWidth), (int)(y+frameHeight));
+        return new Rect((int)(x), (int)(y), (int)(x+BULLET_SIDE*1.5), (int)(y+BULLET_SIDE*1.5));
     }
 
     public void destroy(boolean intersect, Bitmap bitmap, Canvas canvas){

@@ -24,7 +24,7 @@ public class Constant {
     public static final int BUTTON_DOWN_Y = (int)(adaptiveVar(888));
     public static final int BUTTON_FIRE_X = (int)(adaptiveVar(158));
     public static final int BUTTON_FIRE_Y = (int)(adaptiveVar(1064));
-    public static final int BULLET_SIDE = (int) adaptiveVar(128);
+    public static final int BULLET_SIDE = (int) adaptiveVar(64);
     //все эти числа - пиксели для экрана с разрешением 1440 на 2701, но преобразованные для др. экранов
 
     public static double adaptiveVar(double var) {

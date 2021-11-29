@@ -120,7 +120,7 @@ public class Game extends View {
                 return true;
             case MotionEvent.ACTION_UP: // палец поднят
                 if (buttonFire.isFiring){
-                    bullets.add(new Rocket(rocketBitmap, buttonFire.timer, gun.getAngle(), (int)(gun.getX()), (int)(gun.getY())));
+                    bullets.add(new Rocket(rocketBitmap, buttonFire.timer, gun.getAngle(), (int)(gun.getX() + (int)(GUN_SIDE/2)), (int)(gun.getY()+ (int)(GUN_SIDE/2))));
                     buttonFire.isFiring = false;
                 }
                 storm.stop();
