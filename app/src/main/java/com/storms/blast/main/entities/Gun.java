@@ -11,6 +11,7 @@ import com.storms.blast.main.MainActivity;
 import static com.storms.blast.main.Constant.GUN_SIDE;
 import static com.storms.blast.main.Constant.PLAYER_X;
 import static com.storms.blast.main.Constant.PLAYER_Y;
+import static com.storms.blast.main.Constant.adaptiveVar;
 
 public class Gun {
 
@@ -18,37 +19,41 @@ public class Gun {
     private int frameWidth;
     private int frameHeight;
 
+    Matrix position;
+
     private double x;
     private double y;
-    private int angle;
-
-    private Storm storm;
+    private int angle = 0;
+    private int rotate = 0;
 
     public Gun(Bitmap bitmap) {
         this.bitmap = bitmap;
-        x = (int)(PLAYER_X/2 - GUN_SIDE);
+        x = (int)(PLAYER_X/2 - GUN_SIDE/2);
         y = (int)(PLAYER_Y + GUN_SIDE/2);
         this.frameWidth = GUN_SIDE;
         this.frameHeight = GUN_SIDE;
+        position = new Matrix();
     }
 
     public void update(int x){
-        bitmap = rotateGun(bitmap, angle);
+        Matrix m = new Matrix();
+        angle += rotate;
+        m.postRotate(angle, (int)(bitmap.getWidth()/2), (int)(bitmap.getHeight()/2));
+        m.postTranslate((float)(x + GUN_SIDE/2), (float)(this.y));
+        position.set(m);
         this.x = (int)(x + GUN_SIDE/2);
+        if (angle > 90){
+            angle = 90;
+        }
+        else if (angle < -90){
+            angle = -90;
+        }
     }
 
     public void draw(Canvas canvas){
         Paint paint = new Paint();
-        Rect destination = new Rect((int)x, (int)y, (int)(x+frameWidth), (int)(y+frameHeight));
-        canvas.drawBitmap(bitmap, null, destination, paint);
+        canvas.drawBitmap(bitmap, position, paint);
     }//рисует
-
-    private Bitmap rotateGun(Bitmap source, float angle)
-    {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-    } //поворачивает пушку но уменьшает из-за того, что у квадрата высота и ширина при повороте чуть уменьшаются
 
     public Rect getBoundingBoxRect(){
         return new Rect((int)(x), (int)(y), (int)(x+frameWidth), (int)(y+frameHeight));
@@ -60,6 +65,22 @@ public class Gun {
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
+    }
+
+    public Matrix getPosition() {
+        return position;
+    }
+
+    public void setPosition(Matrix position) {
+        this.position = position;
+    }
+
+    public int getRotate() {
+        return rotate;
+    }
+
+    public void setRotate(int rotate) {
+        this.rotate = rotate;
     }
 
     public int getFrameWidth() {

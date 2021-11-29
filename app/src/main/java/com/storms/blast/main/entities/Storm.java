@@ -5,7 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.storms.blast.main.MainActivity;
+import static com.storms.blast.main.Constant.PLAYER_WIDTH;
+import static com.storms.blast.main.Constant.WALL_X;
+import static com.storms.blast.main.Constant.adaptiveVar;
 
 public class Storm {
 
@@ -17,7 +19,7 @@ public class Storm {
     private double y;
     private double velocityX;
     private double velocityY;
-    private final double speed = 50;
+    private final double speed = adaptiveVar(50);
     private double addedVelocity = 0;
 
     private double givenVelocityX;
@@ -37,7 +39,15 @@ public class Storm {
     }
 
     public void update(int ms){
-        velocityX += addedVelocity;
+        if ((velocityX <= 200)&&(velocityX > -200)) {
+            velocityX += addedVelocity;
+        }
+        else if (velocityX > 200){
+            velocityX = 200;
+        }
+        else if(velocityX < -200){
+            velocityX = -200;
+        }
         if(isPlayer){
             x = x + velocityX * ms / 1000.0;
             y = y + velocityY * ms;
@@ -46,6 +56,27 @@ public class Storm {
             x = x + givenVelocityX * ms;
             y = y + givenVelocityY * ms;
         }
+        if (x > WALL_X - PLAYER_WIDTH){
+            x = WALL_X - PLAYER_WIDTH;
+        }
+    }
+
+    public void addVelocity(double addVelocity){
+        if (addVelocity>0){
+            addedVelocity = speed;
+        } else if (addVelocity<0){
+            addedVelocity = -speed;
+        } else {
+            addedVelocity = 0;
+        }
+    }
+
+    public void stop(){
+        addedVelocity = 0;
+        while ((velocityX < 0)||(velocityX > 0)){
+            velocityX = (int)(velocityX - velocityX/2);
+        }
+
     }
 
     public void draw(Canvas canvas){
@@ -106,16 +137,8 @@ public class Storm {
         this.velocityX = velocityX;
     }
 
-    public void addVelocity(double addVelocity){
-        if (addVelocity>0){
-            addedVelocity = speed;
-        } else if (addVelocity<0){
-            addedVelocity = -speed;
-        } else {
-            addedVelocity = 0;
-        }
 
-    }
+
 
     public double getVelocityY() {
         return velocityY;
