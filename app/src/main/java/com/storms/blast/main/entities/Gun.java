@@ -33,13 +33,14 @@ public class Gun {
         position = new Matrix();
     }
 
-    public void update(int x){
+    public void update(int x, int y){
         Matrix m = new Matrix();
         angle += rotate;
         m.postRotate(angle, (int)(bitmap.getWidth()/2), (int)(bitmap.getHeight()/2));
         m.postTranslate((float)(x + GUN_SIDE_X /2), (float)(this.y));
         position.set(m);
-        this.x = (int)(x + GUN_SIDE_Y /2);
+        this.x = (int)(x + GUN_SIDE_X /2);
+        this.y = (int)(y + GUN_SIDE_Y /2);
         if (angle > 90){
             angle = 90;
         }

@@ -6,7 +6,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import static com.storms.blast.main.Constant.BULLET_SIDE;
+import static com.storms.blast.main.Constant.BULLET_SIDE_X;
+import static com.storms.blast.main.Constant.BULLET_SIDE_Y;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
@@ -14,8 +15,6 @@ import static java.lang.Math.toRadians;
 public class Rocket {
 
     private Bitmap bitmap;
-    private int frameWidth;
-    private int frameHeight;
     private int power;
     private int speedX;
     private int speedY;
@@ -29,8 +28,8 @@ public class Rocket {
 
     public Rocket(Bitmap bitmap, int power, int angle, int x, int y) {
         this.bitmap = bitmap;
-        this.x = x - (int)(BULLET_SIDE);
-        this.y = y - (int)(BULLET_SIDE);
+        this.x = x - (int)(BULLET_SIDE_X);
+        this.y = y - (int)(BULLET_SIDE_Y);
         position = new Matrix();
         this.power = power + 20;
         this.angle = angle - 90;
@@ -43,17 +42,17 @@ public class Rocket {
         speedY += g;
         x = x + speedX;
         y = y + speedY;
-        m.postTranslate((float)(x + BULLET_SIDE/2), (float)(y + BULLET_SIDE/2));
+        m.postTranslate((float)(x + BULLET_SIDE_X /2), (float)(y + BULLET_SIDE_Y /2));
         position.set(m);
     }
 
     public void draw(Canvas canvas){
         Paint paint = new Paint();
         canvas.drawBitmap(bitmap, position, paint);
-    }//рисует
+    }
 
     public Rect getBoundingBoxRect(){
-        return new Rect((int)(x), (int)(y), (int)(x+BULLET_SIDE*1.5), (int)(y+BULLET_SIDE*1.5));
+        return new Rect((int)(x), (int)(y), (int)(x+ BULLET_SIDE_X *1.5), (int)(y+ BULLET_SIDE_Y *1.5));
     }
 
     public void destroy(boolean intersect, Bitmap bitmap, Canvas canvas){

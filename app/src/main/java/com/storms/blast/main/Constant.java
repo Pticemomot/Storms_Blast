@@ -12,10 +12,10 @@ public class Constant {
     public static final int PLAYER_X = (int) adaptiveVarX(256);
     public static final int GUN_SIDE_Y = (int) adaptiveVarY(192);
     public static final int GUN_SIDE_X = (int) adaptiveVarX(192);
-    public static final int WALL_X = (int)(screenWidth/2 - (int) adaptiveVarX(128));
+    public static final int WALL_X = (int)(screenWidth/2 - (int) adaptiveVarX(64));
     public static final int WALL_Y = (int)(adaptiveVarY(512));
     public static final int WALL_HEIGHT = screenHeight;
-    public static final int WALL_WIDTH = (int) adaptiveVarX(128);
+    public static final int WALL_WIDTH = (int) adaptiveVarX(64);
     public static final int BUTTON_LEFT_X = (int) adaptiveVarX(1900);
     public static final int BUTTON_LEFT_Y = (int)(adaptiveVarY(1164));
     public static final int BUTTON_RIGHT_X = (int) adaptiveVarX(2452);
@@ -26,7 +26,10 @@ public class Constant {
     public static final int BUTTON_DOWN_Y = (int)(adaptiveVarY(888));
     public static final int BUTTON_FIRE_X = (int)(adaptiveVarX(258));
     public static final int BUTTON_FIRE_Y = (int)(adaptiveVarY(1164));
-    public static final int BULLET_SIDE = (int) adaptiveVarY(64);
+    public static final int BULLET_SIDE_Y = (int) adaptiveVarY(64);
+    public static final int BULLET_SIDE_X = (int) adaptiveVarX(64);
+    public static final int WATER_HEIGHT = (int) screenHeight;
+    public static final int WATER_WIDTH = (int) screenWidth;
     //все эти числа - пиксели для экрана с разрешением 1440 на 2701, но преобразованные для др. экранов
 
     public static double adaptiveVarY(double var) {

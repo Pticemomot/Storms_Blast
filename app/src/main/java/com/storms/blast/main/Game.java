@@ -21,10 +21,12 @@ import com.storms.blast.main.entities.Gun;
 import com.storms.blast.main.entities.Rocket;
 import com.storms.blast.main.entities.Storm;
 import com.storms.blast.main.entities.Wall;
+import com.storms.blast.main.entities.Water;
 
 import java.util.ArrayList;
 
-import static com.storms.blast.main.Constant.BULLET_SIDE;
+import static com.storms.blast.main.Constant.BULLET_SIDE_X;
+import static com.storms.blast.main.Constant.BULLET_SIDE_Y;
 import static com.storms.blast.main.Constant.BUTTON_DOWN_X;
 import static com.storms.blast.main.Constant.BUTTON_DOWN_Y;
 import static com.storms.blast.main.Constant.BUTTON_FIRE_X;
@@ -35,6 +37,7 @@ import static com.storms.blast.main.Constant.BUTTON_RIGHT_X;
 import static com.storms.blast.main.Constant.BUTTON_RIGHT_Y;
 import static com.storms.blast.main.Constant.BUTTON_UP_X;
 import static com.storms.blast.main.Constant.BUTTON_UP_Y;
+import static com.storms.blast.main.Constant.GUN_SIDE_X;
 import static com.storms.blast.main.Constant.GUN_SIDE_Y;
 import static com.storms.blast.main.Constant.PLAYER_X;
 import static com.storms.blast.main.Constant.PLAYER_Y;
@@ -42,6 +45,8 @@ import static com.storms.blast.main.Constant.WALL_HEIGHT;
 import static com.storms.blast.main.Constant.WALL_WIDTH;
 import static com.storms.blast.main.Constant.WALL_X;
 import static com.storms.blast.main.Constant.WALL_Y;
+import static com.storms.blast.main.Constant.WATER_HEIGHT;
+import static com.storms.blast.main.Constant.WATER_WIDTH;
 import static com.storms.blast.main.MainActivity.screenHeight;
 import static com.storms.blast.main.MainActivity.screenWidth;
 import static com.storms.blast.main.Constant.PLAYER_HEIGHT;
@@ -61,7 +66,9 @@ public class Game extends View {
     private Rocket rocket;
     private ArrayList<Rocket> bullets = new ArrayList<Rocket>();
     private Bitmap rocketBitmap;
-    Bitmap destroyBitmap;
+    private Bitmap destroyBitmap;
+    private Water waterL;
+    private Water waterR;
 
     private final int timerInterval = 30;
 
@@ -82,10 +89,12 @@ public class Game extends View {
         Bitmap buttonFireBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.button_fire);
         rocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
         destroyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bang);
+        Bitmap waterBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wave1);
 
-        destroyBitmap = Bitmap.createScaledBitmap(destroyBitmap, BULLET_SIDE, BULLET_SIDE, true);
-        rocketBitmap = Bitmap.createScaledBitmap(rocketBitmap, BULLET_SIDE, BULLET_SIDE, true);
-        gunBitmap = Bitmap.createScaledBitmap(gunBitmap, GUN_SIDE_Y, GUN_SIDE_Y, true);
+        destroyBitmap = Bitmap.createScaledBitmap(destroyBitmap, BULLET_SIDE_X, BULLET_SIDE_Y, true);
+        rocketBitmap = Bitmap.createScaledBitmap(rocketBitmap, BULLET_SIDE_X, BULLET_SIDE_Y, true);
+        gunBitmap = Bitmap.createScaledBitmap(gunBitmap, GUN_SIDE_X, GUN_SIDE_Y, true);
+        waterBitmap = Bitmap.createScaledBitmap(waterBitmap, WATER_WIDTH/2, WATER_HEIGHT, true);
 
         storm = new Storm(stormBitmap, PLAYER_X, PLAYER_Y, PLAYER_HEIGHT, PLAYER_WIDTH, true);
         wall = new Wall(wallBitmap, WALL_X, WALL_Y, WALL_HEIGHT, WALL_WIDTH);
@@ -95,6 +104,9 @@ public class Game extends View {
         buttonDown = new ButtonDown(buttonUpBitmap, BUTTON_DOWN_X, BUTTON_DOWN_Y);
         buttonFire = new ButtonFire(buttonFireBitmap, BUTTON_FIRE_X, BUTTON_FIRE_Y);
         gun = new Gun(gunBitmap);
+        waterL = new Water(waterBitmap, screenWidth, (int) (screenHeight*1.75));
+        waterR = new Water(waterBitmap, screenWidth + screenWidth/2, (int) (screenHeight*1.75));
+
 
         Timer t = new Timer();
         t.start();
@@ -139,19 +151,22 @@ public class Game extends View {
                 }
             }
         storm.draw(canvas);
+        gun.draw(canvas);
+        waterL.draw(canvas);
+        waterR.draw(canvas);
         buttonFire.draw(canvas);
         buttonLeft.draw(canvas);
         buttonRight.draw(canvas);
         buttonUp.draw(canvas);
         buttonDown.draw(canvas);
-        gun.draw(canvas);
+
         wall.draw(canvas);
     }
 
     public void update() {
         buttonFire.update();
-        gun.update((int)storm.getX());
-        storm.update(timerInterval);
+        storm.update(timerInterval, (int)(waterL.getY() - WATER_HEIGHT/5));
+        gun.update((int)storm.getX(), (int)storm.getY());
         if (bullets.size() != 0) {
             for (int i = 0; i < bullets.size(); i++) {
 
@@ -162,6 +177,8 @@ public class Game extends View {
                 bullets.get(i).update();
             }
         }
+        waterL.update();
+        waterR.update();
 
         invalidate();
     }

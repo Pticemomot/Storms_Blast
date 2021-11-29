@@ -38,7 +38,7 @@ public class Storm {
         this.isPlayer = isPlayer;
     }
 
-    public void update(int ms){
+    public void update(int ms, int h){
         if ((velocityX <= 200)&&(velocityX > -200)) {
             velocityX += addedVelocity;
         }
@@ -50,14 +50,14 @@ public class Storm {
         }
         if(isPlayer){
             x = x + velocityX * ms / 1000.0;
-            y = y + velocityY * ms;
+            y = h;
         }
         else{
             x = x + givenVelocityX * ms;
-            y = y + givenVelocityY * ms;
+            y = h;
         }
-        if (x > WALL_X - (int)(PLAYER_WIDTH/2)){
-            x = WALL_X - (int)(PLAYER_WIDTH/2);
+        if (x > WALL_X - (int)(PLAYER_WIDTH)){
+            x = WALL_X - (int)(PLAYER_WIDTH);
         }
     }
 
