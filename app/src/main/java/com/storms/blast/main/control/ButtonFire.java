@@ -14,8 +14,8 @@ public class ButtonFire extends AbstractButton {
         if (isFiring){
             timer += 1;
         }
-        if (timer > 60){
-            timer = 60;
+        if (timer > 80){
+            timer = 80;
         }
         if (!isFiring){
             timer = 0;

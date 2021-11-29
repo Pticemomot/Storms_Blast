@@ -4,7 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import static com.storms.blast.main.Constant.BUTTON_SIDE;
+import static com.storms.blast.main.Constant.BUTTON_SIDE_X;
+import static com.storms.blast.main.Constant.BUTTON_SIDE_Y;
 
 abstract class AbstractButton {
 
@@ -20,12 +21,12 @@ abstract class AbstractButton {
     }
 
     public boolean isTouched(int touchX, int touchY){
-        return ((touchX >= x)&&(touchX <= x + BUTTON_SIDE))&&((touchY >= y)&&(touchY <= y + BUTTON_SIDE));
+        return ((touchX >= x)&&(touchX <= x + BUTTON_SIDE_X))&&((touchY >= y)&&(touchY <= y + BUTTON_SIDE_Y));
     }
 
     public void draw(Canvas canvas){
         Paint paint = new Paint();
-        Rect destination = new Rect(x, y, x+BUTTON_SIDE, y+BUTTON_SIDE);
+        Rect destination = new Rect(x, y, x+BUTTON_SIDE_X, y+BUTTON_SIDE_Y);
         canvas.drawBitmap(bitmap, null, destination, paint);
     }
 }

@@ -7,10 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import static com.storms.blast.main.Constant.BULLET_SIDE;
-import static com.storms.blast.main.Constant.GUN_SIDE;
-import static com.storms.blast.main.Constant.PLAYER_X;
-import static com.storms.blast.main.Constant.PLAYER_Y;
-import static com.storms.blast.main.Constant.adaptiveVar;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
@@ -83,22 +79,6 @@ public class Rocket {
         this.position = position;
     }
 
-    public int getFrameWidth() {
-        return frameWidth;
-    }
-
-    public void setFrameWidth(int frameWidth) {
-        this.frameWidth = frameWidth;
-    }
-
-    public int getFrameHeight() {
-        return frameHeight;
-    }
-
-    public void setFrameHeight(int frameHeight) {
-        this.frameHeight = frameHeight;
-    }
-
     public double getX() {
         return x;
     }
@@ -113,5 +93,41 @@ public class Rocket {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public int getSpeedX() {
+        return speedX;
+    }
+
+    public void setSpeedX(int speedX) {
+        this.speedX = speedX;
+    }
+
+    public int getSpeedY() {
+        return speedY;
+    }
+
+    public void setSpeedY(int speedY) {
+        this.speedY = speedY;
+    }
+
+    public int getAngle() {
+        return angle;
+    }
+
+    public void setAngle(int angle) {
+        this.angle = angle;
+    }
+
+    public int getG() {
+        return g;
     }
 }

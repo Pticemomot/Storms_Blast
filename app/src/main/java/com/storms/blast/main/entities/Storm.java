@@ -7,7 +7,7 @@ import android.graphics.Rect;
 
 import static com.storms.blast.main.Constant.PLAYER_WIDTH;
 import static com.storms.blast.main.Constant.WALL_X;
-import static com.storms.blast.main.Constant.adaptiveVar;
+import static com.storms.blast.main.Constant.adaptiveVarY;
 
 public class Storm {
 
@@ -19,7 +19,7 @@ public class Storm {
     private double y;
     private double velocityX;
     private double velocityY;
-    private final double speed = adaptiveVar(50);
+    private final double speed = adaptiveVarY(50);
     private double addedVelocity = 0;
 
     private double givenVelocityX;
@@ -56,8 +56,8 @@ public class Storm {
             x = x + givenVelocityX * ms;
             y = y + givenVelocityY * ms;
         }
-        if (x > WALL_X - PLAYER_WIDTH){
-            x = WALL_X - PLAYER_WIDTH;
+        if (x > WALL_X - (int)(PLAYER_WIDTH/2)){
+            x = WALL_X - (int)(PLAYER_WIDTH/2);
         }
     }
 

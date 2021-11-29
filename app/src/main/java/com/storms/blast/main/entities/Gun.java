@@ -6,12 +6,10 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.storms.blast.main.MainActivity;
-
-import static com.storms.blast.main.Constant.GUN_SIDE;
+import static com.storms.blast.main.Constant.GUN_SIDE_X;
+import static com.storms.blast.main.Constant.GUN_SIDE_Y;
 import static com.storms.blast.main.Constant.PLAYER_X;
 import static com.storms.blast.main.Constant.PLAYER_Y;
-import static com.storms.blast.main.Constant.adaptiveVar;
 
 public class Gun {
 
@@ -28,10 +26,10 @@ public class Gun {
 
     public Gun(Bitmap bitmap) {
         this.bitmap = bitmap;
-        x = (int)(PLAYER_X/2 - GUN_SIDE/2);
-        y = (int)(PLAYER_Y + GUN_SIDE/2);
-        this.frameWidth = GUN_SIDE;
-        this.frameHeight = GUN_SIDE;
+        x = (int)(PLAYER_X/2 - GUN_SIDE_X /2);
+        y = (int)(PLAYER_Y + GUN_SIDE_Y /2);
+        this.frameWidth = GUN_SIDE_X;
+        this.frameHeight = GUN_SIDE_Y;
         position = new Matrix();
     }
 
@@ -39,9 +37,9 @@ public class Gun {
         Matrix m = new Matrix();
         angle += rotate;
         m.postRotate(angle, (int)(bitmap.getWidth()/2), (int)(bitmap.getHeight()/2));
-        m.postTranslate((float)(x + GUN_SIDE/2), (float)(this.y));
+        m.postTranslate((float)(x + GUN_SIDE_X /2), (float)(this.y));
         position.set(m);
-        this.x = (int)(x + GUN_SIDE/2);
+        this.x = (int)(x + GUN_SIDE_Y /2);
         if (angle > 90){
             angle = 90;
         }

@@ -35,7 +35,7 @@ import static com.storms.blast.main.Constant.BUTTON_RIGHT_X;
 import static com.storms.blast.main.Constant.BUTTON_RIGHT_Y;
 import static com.storms.blast.main.Constant.BUTTON_UP_X;
 import static com.storms.blast.main.Constant.BUTTON_UP_Y;
-import static com.storms.blast.main.Constant.GUN_SIDE;
+import static com.storms.blast.main.Constant.GUN_SIDE_Y;
 import static com.storms.blast.main.Constant.PLAYER_X;
 import static com.storms.blast.main.Constant.PLAYER_Y;
 import static com.storms.blast.main.Constant.WALL_HEIGHT;
@@ -61,7 +61,6 @@ public class Game extends View {
     private Rocket rocket;
     private ArrayList<Rocket> bullets = new ArrayList<Rocket>();
     private Bitmap rocketBitmap;
-    private Intersector intersector;
     Bitmap destroyBitmap;
 
     private final int timerInterval = 30;
@@ -86,7 +85,7 @@ public class Game extends View {
 
         destroyBitmap = Bitmap.createScaledBitmap(destroyBitmap, BULLET_SIDE, BULLET_SIDE, true);
         rocketBitmap = Bitmap.createScaledBitmap(rocketBitmap, BULLET_SIDE, BULLET_SIDE, true);
-        gunBitmap = Bitmap.createScaledBitmap(gunBitmap, GUN_SIDE, GUN_SIDE, true);
+        gunBitmap = Bitmap.createScaledBitmap(gunBitmap, GUN_SIDE_Y, GUN_SIDE_Y, true);
 
         storm = new Storm(stormBitmap, PLAYER_X, PLAYER_Y, PLAYER_HEIGHT, PLAYER_WIDTH, true);
         wall = new Wall(wallBitmap, WALL_X, WALL_Y, WALL_HEIGHT, WALL_WIDTH);
@@ -120,7 +119,7 @@ public class Game extends View {
                 return true;
             case MotionEvent.ACTION_UP: // палец поднят
                 if (buttonFire.isFiring){
-                    bullets.add(new Rocket(rocketBitmap, buttonFire.timer, gun.getAngle(), (int)(gun.getX() + (int)(GUN_SIDE/2)), (int)(gun.getY()+ (int)(GUN_SIDE/2))));
+                    bullets.add(new Rocket(rocketBitmap, buttonFire.timer, gun.getAngle(), (int)(gun.getX() + (int)(GUN_SIDE_Y /2)), (int)(gun.getY()+ (int)(GUN_SIDE_Y /2))));
                     buttonFire.isFiring = false;
                 }
                 storm.stop();
@@ -136,14 +135,9 @@ public class Game extends View {
         canvas.drawBitmap(bgBitmap, null, destination, paint);
         if (bullets.size() != 0) {
             for (int i = 0; i < bullets.size(); i++) {
-                intersector = new Intersector(bullets.get(i), wall, storm);
                 bullets.get(i).draw(canvas);
-                bullets.get(i).destroy(intersector.getIntersection(), destroyBitmap, canvas);
-                if(intersector.getIntersection()){
-                    bullets.remove(i);
                 }
             }
-        }
         storm.draw(canvas);
         buttonFire.draw(canvas);
         buttonLeft.draw(canvas);
@@ -160,6 +154,11 @@ public class Game extends View {
         storm.update(timerInterval);
         if (bullets.size() != 0) {
             for (int i = 0; i < bullets.size(); i++) {
+
+                if (bullets.get(i).getBoundingBoxRect().intersect(wall.getBoundingBoxRect())){
+                    bullets.get(i).setSpeedX(-bullets.get(i).getSpeedX());
+                }
+                //отражение
                 bullets.get(i).update();
             }
         }
